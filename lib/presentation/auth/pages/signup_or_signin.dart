@@ -52,7 +52,7 @@ class SignupOrSigninPage extends StatelessWidget {
                     'Enjoy Listening To Music',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 26,
+                      fontSize: 24,
                     ),
                   ),
                   const SizedBox(height: 21),
@@ -62,7 +62,7 @@ class SignupOrSigninPage extends StatelessWidget {
                     style: TextStyle(
                       color: AppColors.grey,
                       fontWeight: FontWeight.w500,
-                      fontSize: 17,
+                      fontSize: 15,
                     ),
                   ),
                   const SizedBox(height: 30),
@@ -75,8 +75,7 @@ class SignupOrSigninPage extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    const SignupPage(),
+                                builder: (BuildContext context) => SignupPage(),
                               ),
                             );
                           },
@@ -91,8 +90,7 @@ class SignupOrSigninPage extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    const SigninPage(),
+                                builder: (BuildContext context) => SigninPage(),
                               ),
                             );
                           },
