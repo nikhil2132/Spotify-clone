@@ -1,9 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spotify_clone/common/helper/is_dark.dart';
 import 'package:spotify_clone/common/widgets/appbar/app_bar.dart';
 import 'package:spotify_clone/common/widgets/favorite_button/favorite_button.dart';
 import 'package:spotify_clone/core/configs/constants/app_urls.dart';
+import 'package:spotify_clone/presentation/auth/pages/signup_or_signin.dart';
 import 'package:spotify_clone/presentation/profile/bloc/favorite_songs_cubit.dart';
 import 'package:spotify_clone/presentation/profile/bloc/favorite_songs_state.dart';
 import 'package:spotify_clone/presentation/profile/bloc/profile_info_cubit.dart';
@@ -17,6 +19,22 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BasicAppbar(
+        action: IconButton(
+          onPressed: () {
+            var auth = FirebaseAuth.instance;
+            auth.signOut();
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) =>
+                        const SignupOrSigninPage()),
+                (route) => false);
+          },
+          icon: const Icon(
+            Icons.logout,
+            color: Colors.red,
+          ),
+        ),
         backgroundColor:
             context.isDarkMode ? const Color(0xff2C2B2B) : Colors.white,
         title: const Text(

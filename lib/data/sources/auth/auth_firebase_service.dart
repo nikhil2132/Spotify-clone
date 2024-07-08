@@ -13,6 +13,8 @@ abstract class AuthFirebaseService {
   Future<Either> signin(SigninUserReq signinUserReq);
 
   Future<Either> getUser();
+
+  Future<void> logout();
 }
 
 class AuthFirebaseServiceImpl extends AuthFirebaseService {
@@ -89,5 +91,10 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService {
     } catch (e) {
       return const Left('An error ocuured');
     }
+  }
+
+  @override
+  Future<void> logout() {
+    return FirebaseAuth.instance.signOut();
   }
 }
