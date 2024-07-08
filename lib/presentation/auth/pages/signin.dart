@@ -13,6 +13,7 @@ class SigninPage extends StatelessWidget {
   SigninPage({super.key});
 
   final TextEditingController _email = TextEditingController();
+
   final TextEditingController _password = TextEditingController();
 
   @override
@@ -99,6 +100,7 @@ class SigninPage extends StatelessWidget {
 
   Widget _passwordField(BuildContext context) {
     return TextField(
+      obscureText: true,
       controller: _password,
       decoration: const InputDecoration(
         hintText: 'Password',
