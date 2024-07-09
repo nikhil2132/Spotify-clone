@@ -6,6 +6,8 @@ import 'package:spotify_clone/core/configs/theme/app_colors.dart';
 import 'package:spotify_clone/domain/entities/song/song.dart';
 import 'package:spotify_clone/presentation/home/bloc/play_list_cubit.dart';
 import 'package:spotify_clone/presentation/home/bloc/play_list_state.dart';
+import 'package:spotify_clone/presentation/home/widgets/loading_skeleton.dart';
+import 'package:spotify_clone/presentation/home/widgets/playlist_loading_skeleton.dart';
 import 'package:spotify_clone/presentation/song_player/pages/song_player.dart';
 
 class PlayList extends StatelessWidget {
@@ -18,9 +20,33 @@ class PlayList extends StatelessWidget {
       child:
           BlocBuilder<PlayListCubit, PlayListState>(builder: (context, state) {
         if (state is PlayListLoading) {
-          return Container(
-            alignment: Alignment.center,
-            child: const CircularProgressIndicator(),
+          return const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    LoadingSkeleton(
+                      height: 18,
+                      width: 100,
+                    ),
+                    LoadingSkeleton(
+                      height: 13,
+                      width: 50,
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20),
+                Column(
+                  children: [
+                    PlayListLoadingSkeleton(),
+                    SizedBox(height: 20),
+                    PlayListLoadingSkeleton(),
+                  ],
+                ),
+              ],
+            ),
           );
         }
         if (state is PlayListLoaded) {
@@ -28,10 +54,10 @@ class PlayList extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
             child: Column(
               children: [
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    const Text(
                       'PlayList',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -43,7 +69,9 @@ class PlayList extends StatelessWidget {
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 12,
-                        color: Color(0xffC6C6C6),
+                        color: context.isDarkMode
+                            ? const Color(0xffC6C6C6)
+                            : AppColors.darkGrey,
                       ),
                     )
                   ],

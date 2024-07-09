@@ -14,7 +14,7 @@ abstract class AuthFirebaseService {
 
   Future<Either> getUser();
 
-  Future<void> logout();
+  Future<Either> signout();
 }
 
 class AuthFirebaseServiceImpl extends AuthFirebaseService {
@@ -94,7 +94,12 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService {
   }
 
   @override
-  Future<void> logout() {
-    return FirebaseAuth.instance.signOut();
+  Future<Either> signout() async {
+    try {
+      await FirebaseAuth.instance.signOut();
+      return const Right('Sign out successful');
+    } catch (e) {
+      return Left('Error signing out: $e');
+    }
   }
 }

@@ -6,6 +6,7 @@ import 'package:spotify_clone/core/configs/theme/app_colors.dart';
 import 'package:spotify_clone/domain/entities/song/song.dart';
 import 'package:spotify_clone/presentation/home/bloc/news_songs_cubit.dart';
 import 'package:spotify_clone/presentation/home/bloc/news_songs_state.dart';
+import 'package:spotify_clone/presentation/home/widgets/loading_skeleton.dart';
 import 'package:spotify_clone/presentation/song_player/pages/song_player.dart';
 
 class NewsSongs extends StatelessWidget {
@@ -18,9 +19,37 @@ class NewsSongs extends StatelessWidget {
       child: BlocBuilder<NewsSongsCubit, NewsSongsState>(
         builder: (context, state) {
           if (state is NewsSongsLoading) {
-            return Container(
-                alignment: Alignment.center,
-                child: const CircularProgressIndicator());
+            return ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  return const SizedBox(
+                    width: 150,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        LoadingSkeleton(
+                          height: 210,
+                          width: 150,
+                          borderRadius: 30,
+                        ),
+                        SizedBox(height: 10),
+                        LoadingSkeleton(
+                          height: 10,
+                          width: 130,
+                        ),
+                        SizedBox(height: 5),
+                        LoadingSkeleton(
+                          height: 8,
+                          width: 80,
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return const SizedBox(width: 10);
+                },
+                itemCount: 3);
           }
 
           if (state is NewsSongsLoaded) {

@@ -9,5 +9,5 @@ abstract class AuthRepository {
 
   Future<Either> getUser();
 
-  Future<void> logout();
+  Future<Either> signout();
 }

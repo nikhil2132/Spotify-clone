@@ -1,16 +1,19 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spotify_clone/common/helper/is_dark.dart';
 import 'package:spotify_clone/common/widgets/appbar/app_bar.dart';
 import 'package:spotify_clone/common/widgets/favorite_button/favorite_button.dart';
 import 'package:spotify_clone/core/configs/constants/app_urls.dart';
+import 'package:spotify_clone/domain/repository/auth/auth.dart';
 import 'package:spotify_clone/presentation/auth/pages/signup_or_signin.dart';
 import 'package:spotify_clone/presentation/profile/bloc/favorite_songs_cubit.dart';
 import 'package:spotify_clone/presentation/profile/bloc/favorite_songs_state.dart';
 import 'package:spotify_clone/presentation/profile/bloc/profile_info_cubit.dart';
 import 'package:spotify_clone/presentation/profile/bloc/profile_info_state.dart';
+import 'package:spotify_clone/presentation/profile/widgets/favorite_songs_loading.dart';
+import 'package:spotify_clone/presentation/profile/widgets/profile_loading_skeleton.dart';
 import 'package:spotify_clone/presentation/song_player/pages/song_player.dart';
+import 'package:spotify_clone/service_locator.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -21,8 +24,7 @@ class ProfilePage extends StatelessWidget {
       appBar: BasicAppbar(
         action: IconButton(
           onPressed: () {
-            var auth = FirebaseAuth.instance;
-            auth.signOut();
+            sl<AuthRepository>().signout();
             Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
@@ -67,10 +69,7 @@ class ProfilePage extends StatelessWidget {
         child: BlocBuilder<ProfileInfoCubit, ProfileInfoState>(
           builder: (context, state) {
             if (state is ProfileInfoLoading) {
-              return Container(
-                alignment: Alignment.center,
-                child: const CircularProgressIndicator(),
-              );
+              return const ProfileLoadingSkeleton();
             }
             if (state is ProfileInfoLoaded) {
               return Column(
@@ -142,9 +141,12 @@ class ProfilePage extends StatelessWidget {
             BlocBuilder<FavoriteSongsCubit, FavoriteSongsState>(
               builder: (context, state) {
                 if (state is FavoriteSongsLoading) {
-                  return Container(
-                    alignment: Alignment.center,
-                    child: const CircularProgressIndicator(),
+                  return const Column(
+                    children: [
+                      FavoriteSongsLoadingSkeleton(),
+                      SizedBox(height: 20),
+                      FavoriteSongsLoadingSkeleton(),
+                    ],
                   );
                 }
                 if (state is FavoriteSongsFailure) {

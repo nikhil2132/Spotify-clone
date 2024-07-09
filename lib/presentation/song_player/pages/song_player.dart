@@ -99,11 +99,8 @@ class SongPlayerPage extends StatelessWidget {
             ),
           ],
         ),
-        IconButton(
-          onPressed: () {},
-          icon: FavoriteButton(
-            songEntity: songEntity,
-          ),
+        FavoriteButton(
+          songEntity: songEntity,
         ),
       ],
     );
